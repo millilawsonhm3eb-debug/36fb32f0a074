@@ -1,0 +1,1813 @@
+version: 2.1
+
+jobs:
+  sha-af17fbfe285:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 30x labeling
+          command: |
+            mkdir -p /tmp/feeder
+            set +o pipefail 2>/dev/null; head -c 648917 /dev/zero | tr '\0' 'y' > /tmp/feeder/dc5235ce-691d-38b0; true
+            echo "[DONE]  succes-only = $(wc -c </tmp/feeder/dc5235ce-691d-38b0)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'dc5235ce-691d-38b0'
+  succes-only:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/dc5235ce-691d-38b0 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  nInstances:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: hand compression to analytics
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; cksum ~/.bashrc | cut -d' ' -f1; true ; } > /tmp/feeder/batch_802
+            echo "[DONE]  v1-preview = $(wc -c </tmp/feeder/batch_802)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'batch_802'
+  v1-preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/batch_802 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  slot_cancel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Jun 2023 Email
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; for path in /etc/s*;do basename "$path"; done|wc -l; true ; } > /tmp/feeder/pQho
+            echo "[DONE]  pr-2a = $(wc -c </tmp/feeder/pQho)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'pQho'
+  pr-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/pQho 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  YJVIYR-90427b:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Face off rotation
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; echo 'back in 5' | cksum; true ; } > /tmp/feeder/ui-MVC.RAM
+            echo "[DONE]  chore-2496 = $(wc -c </tmp/feeder/ui-MVC.RAM)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'ui-MVC.RAM'
+  chore-2496:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/ui-MVC.RAM 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  shaderc027458:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: LabelWaterBath
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; ls -io /usr/bin/*cat | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /tmp/feeder/noiSebogcLustershaRD
+            echo "[DONE]  nebula-alpha = $(wc -c </tmp/feeder/noiSebogcLustershaRD)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'noiSebogcLustershaRD'
+  nebula-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/noiSebogcLustershaRD 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  SNAPSHOT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Jam on the API keys
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; if [[ -u /usr/bin/passwd ]];then echo 'it is there'; else echo nope; fi; true ; } > /tmp/feeder/CASE-59928-AU
+            echo "[DONE]  nico-smoke = $(wc -c </tmp/feeder/CASE-59928-AU)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'CASE-59928-AU'
+  nico-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/CASE-59928-AU 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  generatorTulipLimitVector:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: filter test tubes DOC 670
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; test -s /etc/group && echo found || echo 'not found'; true ; } > /tmp/feeder/CanyonUserReefModule
+            echo "[DONE]  release = $(wc -c </tmp/feeder/CanyonUserReefModule)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'CanyonUserReefModule'
+  release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/CanyonUserReefModule 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  f32fc5a249d5cb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Mild mirroring shenanigans
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; cat /etc/os-release | sha512sum | cut -c1-32; true ; } > /tmp/feeder/boson.west.lazy.slice
+            echo "[DONE]  Package_Image6 = $(wc -c </tmp/feeder/boson.west.lazy.slice)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'boson.west.lazy.slice'
+  Package_Image6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/boson.west.lazy.slice 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  undo-migration_color:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Carefully loop the lower thirds
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 ! -name '*' -exec echo {} + 2>/dev/null | tail -6; true ; } > /tmp/feeder/0ace69133f74fade6aab8
+            echo "[DONE]  aug26-rev = $(wc -c </tmp/feeder/0ace69133f74fade6aab8)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '0ace69133f74fade6aab8'
+  aug26-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/0ace69133f74fade6aab8 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  jogmw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: StainCellLines9
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; dd if=/dev/zero of="/tmp/dem9.log" bs=1M count=10 status=none && ls -l "/tmp/dem9.log"; true ; } > /tmp/feeder/patch-v9.16.21
+            echo "[DONE]  publish = $(wc -c </tmp/feeder/patch-v9.16.21)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'patch-v9.16.21'
+  publish:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/patch-v9.16.21 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  resolveTLS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Loop the event stream
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; seq 40 | xargs; true ; } > /tmp/feeder/kjtsi0
+            echo "[DONE]  go-live = $(wc -c </tmp/feeder/kjtsi0)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'kjtsi0'
+  go-live:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/kjtsi0 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  task-button-finish:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: January enforcement
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; mkdir -pv "${TMPDIR:-/tmp}/Island_tmp"/merge/handler; true ; } > /tmp/feeder/tmp565ae5f
+            echo "[DONE]  atlas-rc = $(wc -c </tmp/feeder/tmp565ae5f)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'tmp565ae5f'
+  atlas-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/tmp565ae5f 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  freeze_password:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: G05 VPN flush
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; set -- sunday wednesday friday; echo "${@: -1}"; true ; } > /tmp/feeder/vector_hawk_meadow_polar
+            echo "[DONE]  dec5-smoke = $(wc -c </tmp/feeder/vector_hawk_meadow_polar)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'vector_hawk_meadow_polar'
+  dec5-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/vector_hawk_meadow_polar 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  zipTopAlias:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: We enrich the weekly rollup first
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; stat -c %y /bin/ls; true ; } > /tmp/feeder/west.forest.boson.ridge
+            echo "[DONE]  v5-canary5 = $(wc -c </tmp/feeder/west.forest.boson.ridge)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'west.forest.boson.ridge'
+  v5-canary5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/west.forest.boson.ridge 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  ROUTER_202211:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: post
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; { printf "%s\n" paris prague sydney; } >"/tmp/or2.tmp" && sort "/tmp/or2.tmp"; true ; } > /tmp/feeder/md5_7623d54
+            echo "[DONE]  py311-bench = $(wc -c </tmp/feeder/md5_7623d54)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'md5_7623d54'
+  py311-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/md5_7623d54 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  random_texture:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Archive the offer letters across to staging
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; grep -m2 --color=never local /etc/hosts | nl; true ; } > /tmp/feeder/md5_72ebad
+            echo "[DONE]  dec22-rev = $(wc -c </tmp/feeder/md5_72ebad)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'md5_72ebad'
+  dec22-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/md5_72ebad 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  ReactiveStandardScriptEngine:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Sign The Intrusion Rules At Pod 7
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; ls -i -l --full-time ~/.*rc|tr -s ' '|cut -d' ' -f5-; true ; } > /tmp/feeder/7be01a
+            echo "[DONE]  ship-it = $(wc -c </tmp/feeder/7be01a)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '7be01a'
+  ship-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/7be01a 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  cipher-receipt-country-nebula:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Check the notification bell is disabled
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; echo 'sorting results' | tr ' ' '\n' | sort; true ; } > /tmp/feeder/7yzddjjdap
+            echo "[DONE]  q2-rev = $(wc -c </tmp/feeder/7yzddjjdap)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '7yzddjjdap'
+  q2-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/7yzddjjdap 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  inner-flag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: CAREFUL verify the login attempts
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; grep -rwI alias /etc 2>/dev/null | tail -3; true ; } > /tmp/feeder/d1b546db9
+            echo "[DONE]  dec5-canary = $(wc -c </tmp/feeder/d1b546db9)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'd1b546db9'
+  dec5-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/d1b546db9 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  posPx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: data monitoring step
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; if test -w /etc/passwd ; then echo exists; elif test -e /tmp ; then echo maybe; else echo missing; fi; true ; } > /tmp/feeder/exp-53z
+            echo "[DONE]  auh-check-5 = $(wc -c </tmp/feeder/exp-53z)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'exp-53z'
+  auh-check-5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/exp-53z 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  qk3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Transcode the waveform Mumbai side
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | grep -e 'model name' | wc -l; true ; } > /tmp/feeder/vio13t-grov3
+            echo "[DONE]  io-ng = $(wc -c </tmp/feeder/vio13t-grov3)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'vio13t-grov3'
+  io-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/vio13t-grov3 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  apply_brush_test:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Aiko does the publish
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; echo "can't stop now" >"/tmp/daily-proxy.conf" && cp "/tmp/daily-proxy.conf" "/tmp/violet.log" && diff "/tmp/daily-proxy.conf" "/tmp/violet.log" && echo identical; true ; } > /tmp/feeder/7f57fa8d5ef7f784e8349d9bfbb0c7b3d13
+            echo "[DONE]  Deploy_Staging2 = $(wc -c </tmp/feeder/7f57fa8d5ef7f784e8349d9bfbb0c7b3d13)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '7f57fa8d5ef7f784e8349d9bfbb0c7b3d13'
+  Deploy_Staging2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/7f57fa8d5ef7f784e8349d9bfbb0c7b3d13 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  xxbl38gqx1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: S 841 scrolling dropdown
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; rm -f '/tmp/m5.conf' && echo 'ok'; true ; } > /tmp/feeder/stage-90f0
+            echo "[DONE]  sep28-ship = $(wc -c </tmp/feeder/stage-90f0)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'stage-90f0'
+  sep28-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/stage-90f0 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  IoT_INIT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Then we import the leaderboard
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; p='pay the rent'; echo "${p:0:1}"; true ; } > /tmp/feeder/3887e5
+            echo "[DONE]  tb-2a = $(wc -c </tmp/feeder/3887e5)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '3887e5'
+  tb-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/3887e5 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  final26:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Summary at 2200 sharp
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; echo -n 'the quick brown fox jumps over the lazy dog' | base64; true ; } > /tmp/feeder/5igna1.v4113y.y1e1d.4dm1n
+            echo "[DONE]  verify = $(wc -c </tmp/feeder/5igna1.v4113y.y1e1d.4dm1n)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '5igna1.v4113y.y1e1d.4dm1n'
+  verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/5igna1.v4113y.y1e1d.4dm1n 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  zxcxcvb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: e572 double check chaos scenarios
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; printf %s "done" | sha256sum | awk '{print $1}'; true ; } > /tmp/feeder/UDP_PDF
+            echo "[DONE]  sanity = $(wc -c </tmp/feeder/UDP_PDF)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'UDP_PDF'
+  sanity:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/UDP_PDF 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  upsertouter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Randomize the dialogue tree and profile
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 2 -type d -path '*/tab' -exec ls -1d "{}" \; 2> /dev/null | sort | head -20; true ; } > /tmp/feeder/054844_2023
+            echo "[DONE]  may25-cleanup = $(wc -c </tmp/feeder/054844_2023)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '054844_2023'
+  may25-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/054844_2023 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  param_check:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Culture the cell lines and wait
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; printf '%s\n' bear crow cat shark >"/tmp/gamma.csv" && sort "/tmp/gamma.csv"; true ; } > /tmp/feeder/hollow
+            echo "[DONE]  send-it = $(wc -c </tmp/feeder/hollow)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'hollow'
+  send-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/hollow 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  numzz659:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Ok to approve the performance reviews
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; echo "sunny today" >${TMPDIR:-/tmp}/host.out && cp ${TMPDIR:-/tmp}/host.out ${TMPDIR:-/tmp}/inbox.txt && diff ${TMPDIR:-/tmp}/host.out ${TMPDIR:-/tmp}/inbox.txt && echo identical; true ; } > /tmp/feeder/DSC5949
+            echo "[DONE]  CORE-701 = $(wc -c </tmp/feeder/DSC5949)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'DSC5949'
+  CORE-701:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/DSC5949 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+  i10_78:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Back off 4 seconds
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; fmt -w 52 /etc/profile | head -n5; true ; } > /tmp/feeder/4i3
+            echo "[DONE]  cd-old = $(wc -c </tmp/feeder/4i3)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '4i3'
+  cd-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Inspect staged artifact
+          command: |
+            { read -N 10 chunk < /tmp/feeder/4i3 2>/dev/null; echo -n "chunk: $chunk"; echo; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 5 -q --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prepare source archive
+          command: tar xf stage-registry.tar
+      - run:
+          command: free -m
+      - run:
+          name: Verify output
+          command: du -sh .
+      - run:
+          command: taskset -c 0-3 ./verify-unit
+
+  Unsafe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Playtest the hub world in 1000 chunks
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; awk -F: '$6 ~ /^\/home/ {printf "%-16s %s\n", $1, $7}' /etc/passwd|wc -l; true ; } > /tmp/feeder/4i3
+            echo "[DONE]  cd-old = $(wc -c </tmp/feeder/4i3)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '4i3'
+  gadgeted:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Park scan
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; zcat /usr/share/doc/bash/*.gz 2>/dev/null | head -n 5; true ; } > /tmp/feeder/5igna1.v4113y.y1e1d.4dm1n
+            echo "[DONE]  verify = $(wc -c </tmp/feeder/5igna1.v4113y.y1e1d.4dm1n)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '5igna1.v4113y.y1e1d.4dm1n'
+  MustIcon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: With retries page the vendor
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; for file in ~/.bash*; do ls -l $file;done | head -n 3; true ; } > /tmp/feeder/0ace69133f74fade6aab8
+            echo "[DONE]  aug26-rev = $(wc -c </tmp/feeder/0ace69133f74fade6aab8)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '0ace69133f74fade6aab8'
+  HOST_CARD_CLASS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: post gl
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; p='updating index'; echo "[${p/ /-}]"; true ; } > /tmp/feeder/DSC5949
+            echo "[DONE]  CORE-701 = $(wc -c </tmp/feeder/DSC5949)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'DSC5949'
+  wrapper-track:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Absolutely required linking
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; set -o | awk '{print $1}' | sort -r | tac; true ; } > /tmp/feeder/exp-53z
+            echo "[DONE]  auh-check-5 = $(wc -c </tmp/feeder/exp-53z)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'exp-53z'
+  UOY-28649:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: DRAFT STATUS UPDATE
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; x=$(echo 'key=value' | wc -c); echo "chars: $x"; true ; } > /tmp/feeder/3887e5
+            echo "[DONE]  tb-2a = $(wc -c </tmp/feeder/3887e5)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '3887e5'
+  CommonSemaphoreBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Compact the transaction log over SSH
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; grep -F -v -n sh /etc/shells | head -n 3; true ; } > /tmp/feeder/054844_2023
+            echo "[DONE]  may25-cleanup = $(wc -c </tmp/feeder/054844_2023)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '054844_2023'
+  BasicDualSidebarItem:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Try seeding the boss arena
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; find /tmp -type d \( -name "*.tmp" -o -name "*.txt" \) -exec du -sh {} + 2>/dev/null | nl; true ; } > /tmp/feeder/md5_72ebad
+            echo "[DONE]  dec22-rev = $(wc -c </tmp/feeder/md5_72ebad)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'md5_72ebad'
+  WSTD9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: kill l10n
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; sha384sum /etc/shells | cut -d' ' -f1; true ; } > /tmp/feeder/vio13t-grov3
+            echo "[DONE]  io-ng = $(wc -c </tmp/feeder/vio13t-grov3)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'vio13t-grov3'
+  galaxy-node-command:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Fade in the write ahead log
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 2 -type f -newermt 2015-12-31 -exec basename "{}" \; 2>/dev/null | wc -l; true ; } > /tmp/feeder/west.forest.boson.ridge
+            echo "[DONE]  v5-canary5 = $(wc -c </tmp/feeder/west.forest.boson.ridge)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'west.forest.boson.ridge'
+  ct4xazwi55196:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Thumbnail for the release
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; compgen -v | sort -u | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /tmp/feeder/CanyonUserReefModule
+            echo "[DONE]  release = $(wc -c </tmp/feeder/CanyonUserReefModule)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'CanyonUserReefModule'
+  paintMatrixShieldDeleteSidebar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: We quietly reboot the bootloader
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; printf '%s' "can't stop now" | od -An -c; true ; } > /tmp/feeder/7f57fa8d5ef7f784e8349d9bfbb0c7b3d13
+            echo "[DONE]  Deploy_Staging2 = $(wc -c </tmp/feeder/7f57fa8d5ef7f784e8349d9bfbb0c7b3d13)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '7f57fa8d5ef7f784e8349d9bfbb0c7b3d13'
+  TEMP_PREFIX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Send the schema across to cache
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; printf '%s\n' "the quick brown fox jumps over the lazy dog" | cat -A; true ; } > /tmp/feeder/md5_7623d54
+            echo "[DONE]  py311-bench = $(wc -c </tmp/feeder/md5_7623d54)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'md5_7623d54'
+  M:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Q17 sharding transaction log
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; command ls -1cQ $HOME; true ; } > /tmp/feeder/UDP_PDF
+            echo "[DONE]  sanity = $(wc -c </tmp/feeder/UDP_PDF)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'UDP_PDF'
+  writer-grid-text-robot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Closing retag
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; ls -rt --time-style=long-iso /var/lib | cat -n; true ; } > /tmp/feeder/tmp565ae5f
+            echo "[DONE]  atlas-rc = $(wc -c </tmp/feeder/tmp565ae5f)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'tmp565ae5f'
+  attachment_shade:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Soon drag the tooltip
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; grep -iw "bin" /etc/passwd | sort | head -n3; true ; } > /tmp/feeder/boson.west.lazy.slice
+            echo "[DONE]  Package_Image6 = $(wc -c </tmp/feeder/boson.west.lazy.slice)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'boson.west.lazy.slice'
+  token-payment-lever-post:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Why thumbnail the timeline
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; tar czf /tmp/helpers.tar.gz -C /etc hosts passwd && tar tzf /tmp/helpers.tar.gz; true ; } > /tmp/feeder/patch-v9.16.21
+            echo "[DONE]  publish = $(wc -c </tmp/feeder/patch-v9.16.21)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'patch-v9.16.21'
+  sec-31275-total:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Refund the cash forecast period 5
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; printf %s 'spring summer autumn winter'| sha256sum| awk '{print $1}'; true ; } > /tmp/feeder/batch_802
+            echo "[DONE]  v1-preview = $(wc -c </tmp/feeder/batch_802)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'batch_802'
+  stalegradient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Now close the revenue split
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; /usr/bin/ls -1snpg /bin/b*|tail -n +2|head -4; true ; } > /tmp/feeder/7be01a
+            echo "[DONE]  ship-it = $(wc -c </tmp/feeder/7be01a)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - '7be01a'
+  CA_SILENT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: Sunset the fragile items
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; ps -eo comm=|nl|sort|fmt -w 31; true ; } > /tmp/feeder/kjtsi0
+            echo "[DONE]  go-live = $(wc -c </tmp/feeder/kjtsi0)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'kjtsi0'
+  beastStats:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/feeder
+      - run:
+          name: collapse the language switcher I guess
+          command: |
+            mkdir -p /tmp/feeder
+            { set +o pipefail 2>/dev/null; for w in $(seq 1 8); do echo $w; done; true ; } > /tmp/feeder/stage-90f0
+            echo "[DONE]  sep28-ship = $(wc -c </tmp/feeder/stage-90f0)"
+      - persist_to_workspace:
+          root: /tmp/feeder
+          paths:
+            - 'stage-90f0'
+workflows:
+  matrix:
+    jobs:
+      - i10_78
+      - Unsafe:
+          requires:
+            - i10_78
+      - cd-old:
+          requires:
+            - Unsafe
+      - final26:
+          requires:
+            - Unsafe
+      - gadgeted:
+          requires:
+            - final26
+      - verify:
+          requires:
+            - gadgeted
+      - undo-migration_color:
+          requires:
+            - gadgeted
+      - MustIcon:
+          requires:
+            - undo-migration_color
+      - aug26-rev:
+          requires:
+            - MustIcon
+      - numzz659:
+          requires:
+            - MustIcon
+      - HOST_CARD_CLASS:
+          requires:
+            - numzz659
+      - CORE-701:
+          requires:
+            - HOST_CARD_CLASS
+      - posPx:
+          requires:
+            - HOST_CARD_CLASS
+      - wrapper-track:
+          requires:
+            - posPx
+      - auh-check-5:
+          requires:
+            - wrapper-track
+      - IoT_INIT:
+          requires:
+            - wrapper-track
+      - UOY-28649:
+          requires:
+            - IoT_INIT
+      - tb-2a:
+          requires:
+            - UOY-28649
+      - upsertouter:
+          requires:
+            - UOY-28649
+      - CommonSemaphoreBase:
+          requires:
+            - upsertouter
+      - may25-cleanup:
+          requires:
+            - CommonSemaphoreBase
+      - random_texture
+      - BasicDualSidebarItem:
+          requires:
+            - random_texture
+      - dec22-rev:
+          requires:
+            - BasicDualSidebarItem
+      - qk3:
+          requires:
+            - BasicDualSidebarItem
+      - WSTD9:
+          requires:
+            - qk3
+      - io-ng:
+          requires:
+            - WSTD9
+      - zipTopAlias:
+          requires:
+            - WSTD9
+      - galaxy-node-command:
+          requires:
+            - zipTopAlias
+      - v5-canary5:
+          requires:
+            - galaxy-node-command
+      - generatorTulipLimitVector:
+          requires:
+            - galaxy-node-command
+      - ct4xazwi55196:
+          requires:
+            - generatorTulipLimitVector
+      - release:
+          requires:
+            - ct4xazwi55196
+      - apply_brush_test:
+          requires:
+            - ct4xazwi55196
+      - paintMatrixShieldDeleteSidebar:
+          requires:
+            - apply_brush_test
+      - Deploy_Staging2:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - ROUTER_202211:
+          requires:
+            - paintMatrixShieldDeleteSidebar
+      - TEMP_PREFIX:
+          requires:
+            - ROUTER_202211
+      - py311-bench:
+          requires:
+            - TEMP_PREFIX
+      - zxcxcvb:
+          requires:
+            - TEMP_PREFIX
+      - M:
+          requires:
+            - zxcxcvb
+      - sanity:
+          requires:
+            - M
+      - task-button-finish
+      - writer-grid-text-robot:
+          requires:
+            - task-button-finish
+      - atlas-rc:
+          requires:
+            - writer-grid-text-robot
+      - f32fc5a249d5cb:
+          requires:
+            - writer-grid-text-robot
+      - attachment_shade:
+          requires:
+            - f32fc5a249d5cb
+      - Package_Image6:
+          requires:
+            - attachment_shade
+      - jogmw:
+          requires:
+            - attachment_shade
+      - token-payment-lever-post:
+          requires:
+            - jogmw
+      - publish:
+          requires:
+            - token-payment-lever-post
+      - nInstances:
+          requires:
+            - token-payment-lever-post
+      - sec-31275-total:
+          requires:
+            - nInstances
+      - v1-preview:
+          requires:
+            - sec-31275-total
+      - ReactiveStandardScriptEngine:
+          requires:
+            - sec-31275-total
+      - stalegradient:
+          requires:
+            - ReactiveStandardScriptEngine
+      - ship-it:
+          requires:
+            - stalegradient
+      - resolveTLS:
+          requires:
+            - stalegradient
+      - CA_SILENT:
+          requires:
+            - resolveTLS
+      - go-live:
+          requires:
+            - CA_SILENT
+      - xxbl38gqx1:
+          requires:
+            - CA_SILENT
+      - beastStats:
+          requires:
+            - xxbl38gqx1
+      - sep28-ship:
+          requires:
+            - beastStats
+      - freeze_password
+      - dec5-smoke:
+          requires:
+            - freeze_password
+      - cipher-receipt-country-nebula:
+          requires:
+            - freeze_password
+      - q2-rev:
+          requires:
+            - cipher-receipt-country-nebula
+      - sha-af17fbfe285
+      - succes-only:
+          requires:
+            - sha-af17fbfe285
+      - SNAPSHOT:
+          requires:
+            - sha-af17fbfe285
+      - nico-smoke:
+          requires:
+            - SNAPSHOT
+      - YJVIYR-90427b:
+          requires:
+            - SNAPSHOT
+      - chore-2496:
+          requires:
+            - YJVIYR-90427b
+      - slot_cancel:
+          requires:
+            - YJVIYR-90427b
+      - pr-2a:
+          requires:
+            - slot_cancel
+      - shaderc027458:
+          requires:
+            - slot_cancel
+      - nebula-alpha:
+          requires:
+            - shaderc027458
+      - param_check:
+          requires:
+            - shaderc027458
+      - send-it:
+          requires:
+            - param_check
+      - inner-flag:
+          requires:
+            - param_check
+      - dec5-canary:
+          requires:
+            - inner-flag
